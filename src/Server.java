@@ -32,8 +32,8 @@ public class Server {
 			public void run() {
 				try {
 					while (true) {
-						serverSocket = new ServerSocket(8080);
-						System.out.println("Server running at: 8080");
+						serverSocket = new ServerSocket(TCP.PORT);
+						System.out.println("Server running at: " + serverSocket.getLocalPort());
 						socket = serverSocket.accept();
 						System.out.println("Server accept");
 
@@ -43,9 +43,12 @@ public class Server {
 						String fileName = d.readUTF();
 						Files.copy(d, Paths.get("E:\\Windows\\Desktop\\test\\" + fileName));
 						System.out.println("file finish " + fileName);
+						
+						in.close();
+						d.close();
+						socket.close();
+						serverSocket.close();
 
-						in.reset();
-						d.reset();
 						//socket.close();
 						//serverSocket.close();
 
@@ -102,8 +105,8 @@ public class Server {
 		try {
 			//in.close();
 			//d.close();
-			socket.close();
-			serverSocket.close();
+			if (socket.isClosed() == false) socket.close();
+			if (serverSocket.isClosed() == false) serverSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -22,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class TCP extends JFrame {
 
@@ -38,6 +40,7 @@ public class TCP extends JFrame {
 	public static int PORT = 0;
 	int current = 0;
 	private static JTextField port;
+	private static JLabel lblIP;
 	private static JButton btnStartServer, btnStopServer;
 
 	public static Boolean started = false;
@@ -58,13 +61,16 @@ public class TCP extends JFrame {
 					//Server();
 					//bkServer();
 					
+					System.out.println(InetAddress.getLocalHost().getHostAddress());
+					lblIP.setText(InetAddress.getLocalHost().getHostAddress());
+					
 
 					btnStartServer.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
-							System.out.println(Integer.parseInt(port.getText()));
-							if ((port.getText() != "") && (Integer.parseInt(port.getText()) > 0)) {
+							//System.out.println(Integer.parseInt(port.getText()));
+							if (check()) {
 								started = true;
 								server = new Server();
 								PORT = Integer.parseInt(port.getText());
@@ -110,16 +116,17 @@ public class TCP extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblServer = new JLabel("Server");
-		lblServer.setBounds(10, 10, 46, 15);
+		lblServer.setFont(new Font("Arial", Font.BOLD, 16));
+		lblServer.setBounds(10, 10, 55, 25);
 		contentPane.add(lblServer);
 
 		port = new JTextField();
-		port.setBounds(81, 45, 96, 21);
+		port.setBounds(94, 73, 120, 21);
 		contentPane.add(port);
 		port.setColumns(10);
 
 		JLabel lblServerPort = new JLabel("Server Port");
-		lblServerPort.setBounds(10, 48, 74, 15);
+		lblServerPort.setBounds(10, 76, 74, 15);
 		contentPane.add(lblServerPort);
 
 		btnStartServer = new JButton("Start Server");
@@ -130,6 +137,31 @@ public class TCP extends JFrame {
 		btnStopServer.setBounds(10, 136, 108, 23);
 		btnStopServer.setVisible(false);
 		contentPane.add(btnStopServer);
+		
+		JLabel lblServerIp = new JLabel("Server IP");
+		lblServerIp.setBounds(10, 45, 74, 15);
+		contentPane.add(lblServerIp);
+		
+		lblIP = new JLabel("");
+		lblIP.setBounds(94, 45, 120, 15);
+		contentPane.add(lblIP);
+	}
+	
+	private static boolean check() {
+		String portStr = port.getText();
+		char[] portArr = portStr.toCharArray();
+		boolean pass = true;
+		if (portStr == "") {
+			pass = false;
+			return pass;
+		}
+		for (int i = 0; i < portArr.length; i++) {
+			if ((portArr[i] < '0') || (portArr[i] > '9')) {
+				pass = false;
+			}
+			if (!pass) break;
+		}
+		return pass;
 	}
 
 	private static void bkServer() {
