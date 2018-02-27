@@ -41,8 +41,8 @@ public class Server {
 						System.out.println("buffer stream open");
 						d = new DataInputStream(in);
 						String fileName = d.readUTF();
-						Files.copy(d, Paths.get(TCP.fileDest + fileName));
-						System.out.println("file finish " + TCP.fileDest + fileName);
+						Files.copy(d, Paths.get(TCP.fileDest + "\\"+ fileName));
+						System.out.println("file finish " + TCP.fileDest + "\\" + fileName);
 						
 						in.close();
 						d.close();
