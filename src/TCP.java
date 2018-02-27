@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Font;
 
 public class TCP extends JFrame {
@@ -37,8 +39,8 @@ public class TCP extends JFrame {
 	private static String path = "";
 
 	private static int bytesRead;
-	public static int PORT = 0;
-	public static String fileDest = "";
+	public static int PORT = 8080;
+	public static String fileDest = "C://";
 	int current = 0;
 	private static JTextField port;
 	private static JLabel lblIP;
@@ -48,7 +50,7 @@ public class TCP extends JFrame {
 
 	static Server server;
 	private JLabel lblFileDestination;
-	private JTextField textField;
+	private JTextField fileDestTF;
 
 	/**
 	 * Launch the application.
@@ -127,6 +129,7 @@ public class TCP extends JFrame {
 		port.setBounds(104, 76, 113, 21);
 		contentPane.add(port);
 		port.setColumns(10);
+		port.setText(PORT + "");
 
 		JLabel lblServerPort = new JLabel("Server Port");
 		lblServerPort.setBounds(10, 79, 74, 15);
@@ -153,10 +156,30 @@ public class TCP extends JFrame {
 		lblFileDestination.setBounds(10, 107, 108, 15);
 		contentPane.add(lblFileDestination);
 		
-		textField = new JTextField();
-		textField.setBounds(104, 104, 142, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		fileDestTF = new JTextField();
+		fileDestTF.setBounds(104, 104, 142, 21);
+		contentPane.add(fileDestTF);
+		fileDestTF.setColumns(10);
+		fileDestTF.setText(fileDest);
+		
+		JButton btnDirectory = new JButton("Directory");
+		btnDirectory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new java.io.File(fileDest));
+				fileDestTF.setText(fileDest);
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnValue = fileChooser.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION)  
+				{ 
+					fileDest = fileChooser.getSelectedFile().getAbsolutePath();
+					fileDestTF.setText(fileDest);
+					System.out.println(fileDest);
+				} 
+			}
+		});
+		btnDirectory.setBounds(254, 103, 108, 23);
+		contentPane.add(btnDirectory);
 	}
 	
 	private static boolean check() {
