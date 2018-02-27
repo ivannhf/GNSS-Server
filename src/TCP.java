@@ -38,6 +38,7 @@ public class TCP extends JFrame {
 
 	private static int bytesRead;
 	public static int PORT = 0;
+	public static String fileDest = "";
 	int current = 0;
 	private static JTextField port;
 	private static JLabel lblIP;
