@@ -11,8 +11,8 @@ import java.util.concurrent.Executors;
 public class Server {
 	ServerSocket serverSocket;
 	Socket socket;
-	BufferedInputStream in;
-	DataInputStream d;
+	BufferedInputStream in, bisRaw, bisRinex, bisNmea;
+	DataInputStream d, disRaw, disRinex, disNmea;
 
 	public Server() {
 		try {
@@ -37,28 +37,57 @@ public class Server {
 						socket = serverSocket.accept();
 						System.out.println("Server accept");
 
-						in = new BufferedInputStream(socket.getInputStream());
-						System.out.println("buffer stream open");
-						d = new DataInputStream(in);
-						String fileName = d.readUTF();
-						Files.copy(d, Paths.get(TCP.fileDest + "\\"+ fileName));
-						System.out.println("file finish " + TCP.fileDest + "\\" + fileName);
+						/*
+						 * in = new
+						 * BufferedInputStream(socket.getInputStream()); d = new
+						 * DataInputStream(in);
+						 */
+
+						bisRaw = new BufferedInputStream(socket.getInputStream());
+						disRaw = new DataInputStream(bisRaw);
+
+						//bisRinex = new BufferedInputStream(socket.getInputStream());
+						//disRinex = new DataInputStream(bisRinex);
+
+						//bisNmea = new BufferedInputStream(socket.getInputStream());
+						//disNmea = new DataInputStream(bisNmea);
+
+						String rawName = disRaw.readUTF();
+						//String rinexName = disRinex.readUTF();
+						//String nmeaName = disNmea.readUTF();
+
+						// String fileName = d.readUTF();
+						//if (rawName.compareTo("") != 0)
+							Files.copy(disRaw, Paths.get(TCP.fileDest + "\\" + rawName));
+
+						/*if (rinexName.compareTo("") != 0)
+							Files.copy(disRinex, Paths.get(TCP.fileDest + "\\" + rinexName));
+
+						if (nmeaName.compareTo("") != 0)
+							Files.copy(disNmea, Paths.get(TCP.fileDest + "\\" + nmeaName));*/
+
+						disRaw.close();
+						bisRaw.close();
 						
-						in.close();
-						d.close();
+						/*disRinex.close();
+						bisRinex.close();
+						
+						disNmea.close();						
+						bisNmea.close();*/
+
+						// in.close();
+						// d.close();
+
 						socket.close();
 						serverSocket.close();
 
-						//socket.close();
-						//serverSocket.close();
+						// socket.close();
+						// serverSocket.close();
 
-						/*if (!TCP.started) {
-							d.close();
-							in.close();
-							socket.close();
-							serverSocket.close();
-							break;
-						}*/
+						/*
+						 * if (!TCP.started) { d.close(); in.close();
+						 * socket.close(); serverSocket.close(); break; }
+						 */
 
 						/*
 						 * InputStream in = new
@@ -103,10 +132,12 @@ public class Server {
 
 	public void stop() {
 		try {
-			//in.close();
-			//d.close();
-			if (socket.isClosed() == false) socket.close();
-			if (serverSocket.isClosed() == false) serverSocket.close();
+			// in.close();
+			// d.close();
+			if (socket.isClosed() == false)
+				socket.close();
+			if (serverSocket.isClosed() == false)
+				serverSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
