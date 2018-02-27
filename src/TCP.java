@@ -60,7 +60,7 @@ public class TCP extends JFrame {
 
 					//server = new Server();
 					//Server();
-					//bkServer();
+					//bkServer ();
 					
 					System.out.println(InetAddress.getLocalHost().getHostAddress());
 					lblIP.setText(InetAddress.getLocalHost().getHostAddress());
