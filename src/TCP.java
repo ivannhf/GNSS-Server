@@ -47,6 +47,8 @@ public class TCP extends JFrame {
 	public static Boolean started = false;
 
 	static Server server;
+	private JLabel lblFileDestination;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -122,30 +124,39 @@ public class TCP extends JFrame {
 		contentPane.add(lblServer);
 
 		port = new JTextField();
-		port.setBounds(94, 73, 120, 21);
+		port.setBounds(104, 76, 113, 21);
 		contentPane.add(port);
 		port.setColumns(10);
 
 		JLabel lblServerPort = new JLabel("Server Port");
-		lblServerPort.setBounds(10, 76, 74, 15);
+		lblServerPort.setBounds(10, 79, 74, 15);
 		contentPane.add(lblServerPort);
 
 		btnStartServer = new JButton("Start Server");
-		btnStartServer.setBounds(10, 136, 108, 23);
+		btnStartServer.setBounds(10, 169, 108, 23);
 		contentPane.add(btnStartServer);
 
 		btnStopServer = new JButton("Stop Server");
-		btnStopServer.setBounds(10, 136, 108, 23);
+		btnStopServer.setBounds(10, 169, 108, 23);
 		btnStopServer.setVisible(false);
 		contentPane.add(btnStopServer);
 		
 		JLabel lblServerIp = new JLabel("Server IP");
-		lblServerIp.setBounds(10, 45, 74, 15);
+		lblServerIp.setBounds(10, 51, 74, 15);
 		contentPane.add(lblServerIp);
 		
 		lblIP = new JLabel("");
-		lblIP.setBounds(94, 45, 120, 15);
+		lblIP.setBounds(104, 51, 120, 15);
 		contentPane.add(lblIP);
+		
+		lblFileDestination = new JLabel("File Destination");
+		lblFileDestination.setBounds(10, 107, 108, 15);
+		contentPane.add(lblFileDestination);
+		
+		textField = new JTextField();
+		textField.setBounds(104, 104, 142, 21);
+		contentPane.add(textField);
+		textField.setColumns(10);
 	}
 	
 	private static boolean check() {
