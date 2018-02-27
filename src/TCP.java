@@ -50,7 +50,7 @@ public class TCP extends JFrame {
 
 	static Server server;
 	private JLabel lblFileDestination;
-	private JTextField fileDestTF;
+	private static JTextField fileDestTF;
 
 	/**
 	 * Launch the application.
@@ -80,6 +80,7 @@ public class TCP extends JFrame {
 								server = new Server();
 								PORT = Integer.parseInt(port.getText());
 								port.setEnabled(!started);
+								fileDestTF.setEnabled(!started);
 								btnStartServer.setVisible(!started);
 								btnStopServer.setVisible(started);
 								server.start();
@@ -93,6 +94,7 @@ public class TCP extends JFrame {
 							// TODO Auto-generated method stub
 							started = false;
 							port.setEnabled(!started);
+							fileDestTF.setEnabled(!started);
 							btnStartServer.setVisible(!started);
 							btnStopServer.setVisible(started);
 							server.stop();
@@ -136,11 +138,11 @@ public class TCP extends JFrame {
 		contentPane.add(lblServerPort);
 
 		btnStartServer = new JButton("Start Server");
-		btnStartServer.setBounds(10, 169, 108, 23);
+		btnStartServer.setBounds(10, 188, 108, 23);
 		contentPane.add(btnStartServer);
 
 		btnStopServer = new JButton("Stop Server");
-		btnStopServer.setBounds(10, 169, 108, 23);
+		btnStopServer.setBounds(10, 188, 108, 23);
 		btnStopServer.setVisible(false);
 		contentPane.add(btnStopServer);
 		
@@ -194,7 +196,9 @@ public class TCP extends JFrame {
 			if ((portArr[i] < '0') || (portArr[i] > '9')) {
 				pass = false;
 			}
-			if (!pass) break;
+			if (!pass) {
+				break;
+			}
 		}
 		return pass;
 	}
