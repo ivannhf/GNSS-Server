@@ -1,6 +1,8 @@
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -13,6 +15,10 @@ public class Server {
 	Socket socket;
 	BufferedInputStream in, bisRaw, bisRinex, bisNmea;
 	DataInputStream d, disRaw, disRinex, disNmea;
+	InputStreamReader inputStreamReader;
+	BufferedReader bufferedReader;
+	
+	String message = "";
 
 	public Server() {
 		try {
@@ -37,46 +43,14 @@ public class Server {
 						socket = serverSocket.accept();
 						System.out.println("Server accept");
 
-						/*
-						 * in = new
-						 * BufferedInputStream(socket.getInputStream()); d = new
-						 * DataInputStream(in);
-						 */
+						inputStreamReader = new InputStreamReader(socket.getInputStream());
+						bufferedReader = new BufferedReader(inputStreamReader); 
+						message = bufferedReader.readLine(); 
 
-						bisRaw = new BufferedInputStream(socket.getInputStream());
-						disRaw = new DataInputStream(bisRaw);
-
-						//bisRinex = new BufferedInputStream(socket.getInputStream());
-						//disRinex = new DataInputStream(bisRinex);
-
-						//bisNmea = new BufferedInputStream(socket.getInputStream());
-						//disNmea = new DataInputStream(bisNmea);
-
-						String rawName = disRaw.readUTF();
-						//String rinexName = disRinex.readUTF();
-						//String nmeaName = disNmea.readUTF();
-
-						// String fileName = d.readUTF();
-						//if (rawName.compareTo("") != 0)
-							Files.copy(disRaw, Paths.get(TCP.fileDest + "\\" + rawName));
-
-						/*if (rinexName.compareTo("") != 0)
-							Files.copy(disRinex, Paths.get(TCP.fileDest + "\\" + rinexName));
-
-						if (nmeaName.compareTo("") != 0)
-							Files.copy(disNmea, Paths.get(TCP.fileDest + "\\" + nmeaName));*/
-
-						disRaw.close();
-						bisRaw.close();
+						System.out.println(message);
 						
-						/*disRinex.close();
-						bisRinex.close();
-						
-						disNmea.close();						
-						bisNmea.close();*/
-
-						// in.close();
-						// d.close();
+						inputStreamReader.close(); 
+						bufferedReader.close();
 
 						socket.close();
 						serverSocket.close();
