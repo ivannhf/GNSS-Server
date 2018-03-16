@@ -48,7 +48,6 @@ public class Server {
 						bufferedReader.readLine();
 
 						System.out.println(message);
-						
 							
 						inputStreamReader.close(); 
 						bufferedReader.close();
