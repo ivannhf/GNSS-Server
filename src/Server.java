@@ -17,8 +17,8 @@ public class Server {
 	DataInputStream d, disRaw, disRinex, disNmea;
 	InputStreamReader inputStreamReader;
 	BufferedReader bufferedReader;
-	
 	String message = "";
+	
 
 	public Server() {
 		try {
@@ -44,11 +44,11 @@ public class Server {
 						System.out.println("Server accept");
 
 						inputStreamReader = new InputStreamReader(socket.getInputStream());
-						bufferedReader = new BufferedReader(inputStreamReader); 
-						message = bufferedReader.readLine(); 
+						bufferedReader = new BufferedReader(inputStreamReader); message =
+						bufferedReader.readLine();
 
 						System.out.println(message);
-						
+							
 						inputStreamReader.close(); 
 						bufferedReader.close();
 
