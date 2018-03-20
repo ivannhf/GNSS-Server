@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -42,6 +43,10 @@ public class Server {
 		Runnable r = new Runnable() {
 			public void run() {
 				input = new File (TCP.fileDest, "test.txt");
+				try {
+					bufferedWriter = new BufferedWriter(new FileWriter(input));
+	            } catch (IOException e) {
+	            }
 				
 				try {
 					while (true) {
@@ -53,8 +58,9 @@ public class Server {
 						System.out.println("Server accept");
 
 						inputStreamReader = new InputStreamReader(socket.getInputStream());
-						bufferedReader = new BufferedReader(inputStreamReader); message =
-						bufferedReader.readLine();
+						bufferedReader = new BufferedReader(inputStreamReader); 
+						message = bufferedReader.readLine();
+						bufferedWriter.write(message);
 
 						System.out.println(message);
 							
@@ -125,5 +131,15 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		if (bufferedWriter != null) {
+            try {
+            	bufferedWriter.flush();
+            	bufferedWriter.close();
+            	bufferedWriter = null;
+            } catch (IOException e) {
+            }
+        }
+		
 	}
 }
