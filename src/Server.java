@@ -1,6 +1,8 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -19,6 +21,9 @@ public class Server {
 	BufferedReader bufferedReader;
 	String message = "";
 	
+	File input;
+	BufferedWriter bufferedWriter;
+	
 
 	public Server() {
 		try {
@@ -36,11 +41,15 @@ public class Server {
 
 		Runnable r = new Runnable() {
 			public void run() {
+				input = new File (TCP.fileDest, "test.txt");
+				
 				try {
 					while (true) {
 						serverSocket = new ServerSocket(TCP.PORT);
+						serverSocket.setReuseAddress(true);
 						System.out.println("Server running at: " + serverSocket.getLocalPort());
 						socket = serverSocket.accept();
+						socket.setReuseAddress(true);
 						System.out.println("Server accept");
 
 						inputStreamReader = new InputStreamReader(socket.getInputStream());
