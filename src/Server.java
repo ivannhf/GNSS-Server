@@ -61,6 +61,7 @@ public class Server {
 						bufferedReader = new BufferedReader(inputStreamReader); 
 						message = bufferedReader.readLine();
 						bufferedWriter.write(message);
+						bufferedWriter.newLine();
 
 						System.out.println(message);
 							
